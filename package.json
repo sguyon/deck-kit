@@ -1,0 +1,16 @@
+{
+  "name": "deck-kit",
+  "private": true,
+  "description": "Markdown slides on Marp with a live preview, comment mode and a terminal mockup generator",
+  "scripts": {
+    "watch": "./watch.sh",
+    "stop": "./watch.sh stop",
+    "mockups": "mockups/render.sh",
+    "build": "marp deck.md --html --theme-set ./theme.css ./theme-copilot.css -o deck.html",
+    "pdf": "marp deck.md --html --allow-local-files --pdf --theme-set ./theme.css ./theme-copilot.css -o deck.pdf"
+  },
+  "dependencies": {
+    "@marp-team/marp-cli": "4.5.1",
+    "playwright": "1.59.1"
+  }
+}

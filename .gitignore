@@ -1,0 +1,16 @@
+node_modules/
+deck.html
+deck.live.html
+deck.pdf
+watch.log
+*.log
+*.pid
+.watch.pid
+.preview.md
+comments*.md
+speaker-notes.md
+shots/
+mockups/.build/
+__pycache__/
+.DS_Store
+PROGRESS.md

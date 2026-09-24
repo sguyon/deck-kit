@@ -1,0 +1,282 @@
+/* @theme deck-kit */
+@import 'default';
+
+/* Two themes share every layout below:
+   - deck-kit (default): "paper", warm light canvas, serif headlines. Its rules are at the end of this file,
+     scoped to section[data-theme="deck-kit"]; class `dark` = its dark mode.
+   - deck-kit-copilot (theme-copilot.css, which only imports this file): the terminal look written right below;
+     dark by default, class `light` = its light mode. Colors are GitHub Primer functional tokens (MIT).
+   Pick one with `theme:` in the deck's front matter; in the live preview press T (theme) and D (dark / light).
+   Fonts: system stacks; see README to add your own. */
+section {
+  /* Primer dark functional tokens; --kicker = accent color (kicker cursor, agenda numbers, card status) */
+  --canvas: #010409; --dot: #3d444d; --card: #151b23;
+  --fgColor-default: #f0f6fc; --fgColor-muted: #9198a1; --fgColor-accent: #4493f8; --fgColor-attention: #d29922;
+  --kicker: #8cf2a6; --callout-border: #238636;
+  --borderColor-default: #3d444d; --borderColor-muted: #3d444db3; --bgColor-neutral-muted: #656c7633;
+  --bgColor-attention-muted: #bb800926; --bgColor-attention-emphasis: #9e6a03; --borderColor-attention-muted: #bb800966;
+  --fontStack-sansSerif: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  --fontStack-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --fontStack-heading: var(--fontStack-sansSerif); /* h1-h3 */
+  --fontStack-label: var(--fontStack-monospace);   /* kicker, footer, page number, table header, card status */
+  font-family: var(--fontStack-sansSerif); font-optical-sizing: auto; font-variant-ligatures: none;
+  font-size: 28px; line-height: 1.5; font-weight: 400; color: var(--fgColor-default);
+  background: var(--canvas);
+  padding: 64px 72px 60px;
+}
+section.light {
+  /* Primer light functional tokens */
+  --canvas: #ffffff; --dot: #d1d9e0; --card: #f6f8fa;
+  --fgColor-default: #1f2328; --fgColor-muted: #59636e; --fgColor-accent: #0969da; --fgColor-attention: #9a6700;
+  --kicker: #1a7f37; --callout-border: #1a7f37;
+  --borderColor-default: #d1d9e0; --borderColor-muted: #d1d9e0b3; --bgColor-neutral-muted: #818b981f;
+  --bgColor-attention-muted: #fff8c5; --bgColor-attention-emphasis: #9a6700; --borderColor-attention-muted: #d4a72c66;
+}
+/* kicker: the header, small gray uppercase mono, top-left, one line, then a solid accent block cursor */
+section header { top: 44px; left: 72px; font-family: var(--fontStack-label); font-size: 20px; line-height: 1; font-weight: 500; text-transform: uppercase; color: var(--fgColor-muted); }
+section header::after { content: ""; display: inline-block; width: 0.55em; height: 1em; margin-left: 0.45em; vertical-align: -0.12em; background: var(--kicker); }
+section header:empty::after { content: none; }
+/* footer: small muted mono, bottom-left */
+section footer { left: 72px; bottom: 20px; font-family: var(--fontStack-label); font-size: 18px; line-height: 20px; color: var(--fgColor-muted); }
+section.lead footer { display: none; }
+/* headline: large, bold, left-aligned, no rule */
+section h1, section h2, section h3 { font-family: var(--fontStack-heading); color: var(--fgColor-default); font-weight: 700; letter-spacing: normal; border: 0; padding: 0; margin: 0 0 24px; }
+section h1 { font-size: 56px; line-height: 1.1; }
+section h2 { font-size: 44px; line-height: 1.15; margin-bottom: 28px; }
+section h3 { font-size: 30px; font-weight: 600; margin-bottom: 8px; }
+section h1 em, section h2 em { font-style: normal; color: var(--kicker); letter-spacing: 0.08em; }
+section strong { color: var(--fgColor-default); font-weight: 600; }
+section a { color: var(--kicker); }
+/* lists */
+section ul, section ol { margin: 0 0 16px; padding-left: 1.3em; }
+section li { margin: 12px 0; }
+section li li { margin: 6px 0; }
+/* bullet with a bold lead-in: lead-in full contrast, the rest muted */
+section li:has(> strong:first-child) { color: var(--fgColor-muted); }
+section li:has(> strong:first-child) > strong { color: var(--fgColor-default); }
+section ul { list-style: disc; }
+section ul ul { list-style: disc; margin: 2px 0 4px; }
+section li::marker { color: var(--fgColor-muted); }
+section ol > li::marker { color: var(--fgColor-muted); font-weight: 600; }
+/* tables: row rules + column dividers, no outer frame, no fills */
+section table { display: table; width: 100%; border-collapse: collapse; font-size: 22px; line-height: 1.3; font-variant: tabular-nums; margin: 8px 0 16px; background: transparent; }
+section table tr, section table tr:nth-child(2n) { background: transparent; }
+section table th, section table td { padding: 8px 16px 8px 0; vertical-align: top; text-align: left; background: transparent; border: 0; border-bottom: 1px solid var(--borderColor-muted); }
+/* 3 levels: header = small muted mono caps; first column = semibold full contrast; other cells = regular muted */
+section table th { font-family: var(--fontStack-label); font-size: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fgColor-muted); border-bottom: 1px solid var(--borderColor-default); }
+section table td { color: var(--fgColor-muted); font-weight: 400; }
+section table td:first-child { color: var(--fgColor-default); font-weight: 600; }
+section table td strong { color: var(--fgColor-default); }
+section table tr:last-child td { border-bottom: 0; }
+/* inline code: Primer markdown code */
+section code { font-family: var(--fontStack-monospace); font-size: 85%; padding: 0.2em 0.4em; border-radius: 6px; background: var(--bgColor-neutral-muted); color: var(--fgColor-default); }
+/* commands in headlines and card titles: mono, regular weight, near full size, subtle tint */
+section h1 code, section h2 code, section h3 code, section.cards li strong code, section.cards td:first-child code { font-size: 0.92em; font-weight: 400; padding: 0.04em 0.22em; border-radius: 6px; background: var(--bgColor-neutral-muted); }
+/* code block: dark terminal-style card in both themes */
+section pre { background: #0d1117; color: #f0f6fc; border: 1px solid #3d444d; border-radius: 12px; padding: 18px 24px; margin: 12px 0 18px; font-size: 22px; line-height: 1.45; }
+section pre code { background: none; color: inherit; padding: 0; font-size: 100%; border-radius: 0; }
+section pre .hljs-meta, section pre .hljs-meta .hljs-keyword { color: #3fb950; font-weight: 600; }
+section pre .hljs-comment { color: #9198a1; font-style: normal; }
+section pre .hljs-keyword, section pre .hljs-built_in { color: #ff7b72; }
+section pre .hljs-string { color: #a5d6ff; }
+section pre .hljs-number, section pre .hljs-variable, section pre .hljs-literal { color: #79c0ff; }
+/* callout: blockquote = card (Primer muted surface, 12px radius) with an accent border */
+section blockquote { margin: 12px 0; padding: 16px 24px; border: 1px solid var(--callout-border); border-radius: 12px; background: var(--card); color: var(--fgColor-default); font-size: 26px; }
+section blockquote::before, section blockquote::after { content: none; }
+section blockquote > :last-child { margin-bottom: 0; }
+section blockquote p { color: var(--fgColor-muted); }
+section blockquote strong { color: var(--fgColor-default); font-weight: 600; }
+/* placeholders: inline = Primer Label (attention); a paragraph holding only a placeholder = Primer Flash (warning) */
+.todo { color: var(--fgColor-attention); font-weight: 500; font-size: 0.85em; padding: 0.05em 0.5em; border: 1px solid var(--bgColor-attention-emphasis); border-radius: 2em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+section p > .todo:only-child { display: block; font-size: 1em; font-weight: 400; color: var(--fgColor-default); background: var(--bgColor-attention-muted); border: 1px solid var(--borderColor-attention-muted); border-radius: 6px; padding: 16px 20px; }
+/* pagination: n / total, mono, muted */
+section[data-marpit-pagination]::after { content: attr(data-marpit-pagination) " / " attr(data-marpit-pagination-total); font-family: var(--fontStack-label); font-size: 20px; color: var(--fgColor-muted); right: 32px; bottom: 20px; padding: 0; }
+/* content slides: kicker + title pinned at the same y */
+section:not(.lead) { place-content: start stretch !important; justify-content: flex-start !important; padding-top: 88px !important; }
+section:not(.lead) h2 { margin-top: 0; }
+/* lead slides (title, summary): the huge headline */
+section.lead { justify-content: center; padding: 72px 96px; }
+/* lead slides: dot pattern fading in from left to right */
+section.lead { background-color: var(--canvas); background-image: linear-gradient(90deg, var(--canvas) 30%, transparent 100%), radial-gradient(circle, var(--dot) 2.2px, transparent 2.8px); background-size: 100% 100%, 26px 26px; background-position: 0 0, 13px 13px; background-repeat: no-repeat, repeat; }
+section.lead header { display: none; }
+section.lead h1 { font-size: 76px; line-height: 1.06; margin-bottom: 32px; }
+section.lead p { font-size: 28px; color: var(--fgColor-muted); }
+/* lead.split: title left, a code-block card right, byline below */
+section.lead.split { display: grid !important; grid-template-columns: minmax(0, 1fr) 580px; grid-template-rows: auto auto; column-gap: 48px; align-content: center; align-items: center; }
+section.lead.split h1 { grid-column: 1; grid-row: 1; align-self: center; font-size: 64px; margin: 0 0 24px; }
+section.lead.split pre { grid-column: 2; grid-row: 1; align-self: center; width: 580px; box-sizing: border-box; margin: 0; border-color: var(--callout-border); }
+section.lead.split p:last-of-type { grid-column: 1 / -1; grid-row: 2; align-self: start; margin: 0; font-size: 24px; font-weight: 400; color: var(--fgColor-muted); }
+/* agenda: three groups side by side */
+section.agenda > ol { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 48px; align-items: start; margin-top: 16px; padding-left: 1.4em; font-size: 36px; line-height: 1.2; }
+section.agenda > ol > li { margin: 0; }
+section.agenda > ol > li > strong { font-weight: 700; }
+/* agenda accent: accent group numbers + a short accent rule above each group name  */
+section.agenda > ol > li::marker { color: var(--kicker); }
+section.agenda > ol > li { position: relative; padding-top: 20px; }
+section.agenda > ol > li::before { content: ""; position: absolute; top: 0; left: -1.05em; width: 40px; height: 3px; background: var(--kicker); }
+section.agenda > ol > li > ul { list-style: none; padding: 0; margin: 14px 0 0; font-size: 26px; line-height: 1.35; color: var(--fgColor-muted); }
+section.agenda > ol > li > ul > li { margin: 0 0 6px; }
+/* dense slides: more content, still >= 22px */
+section.dense { font-size: 24px; line-height: 1.32; }
+section.dense h2 { font-size: 40px; margin-bottom: 18px; }
+section.dense h3 { font-size: 26px; margin: 10px 0 6px; }
+section.dense li { margin: 3px 0; }
+section.dense pre { padding: 12px 20px; margin: 8px 0 14px; }
+section.dense th, section.dense td { padding: 6px 14px 6px 0; }
+/* backup slides: Q&A reference, table-heavy; same >= 22px floor */
+section.backup { font-size: 24px; line-height: 1.35; }
+section.backup th, section.backup td { padding: 6px 14px 6px 0; }
+section.backup blockquote { font-size: 24px; padding: 12px 20px; }
+/* .cards: a list or a table rendered as a grid of rounded cards .
+   List: one card per item; **bold** = card title, *italic* = small mono status line. Table: one card per row, header hidden.
+   Modifiers: cols-2 / cols-3 / cols-4 (default auto-fit), hero-first (accent border on card 1). */
+section.cards ul, section.cards tbody { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin: 8px 0 16px; padding: 0; }
+section.cards.cols-2 ul, section.cards.cols-2 tbody { grid-template-columns: repeat(2, 1fr); }
+section.cards.cols-3 ul, section.cards.cols-3 tbody { grid-template-columns: repeat(3, 1fr); }
+section.cards.cols-4 ul, section.cards.cols-4 tbody { grid-template-columns: repeat(4, 1fr); }
+section.cards.cols-5 ul, section.cards.cols-5 tbody { grid-template-columns: repeat(5, 1fr); }
+section.cards ul > li, section.cards tbody > tr { display: flex; flex-direction: column; justify-content: flex-start; gap: 6px; margin: 0; padding: 22px 24px; min-height: 120px; background: var(--card); border: 1px solid var(--borderColor-default); border-radius: 12px; font-size: 24px; line-height: 1.3; }
+section.cards ul > li::before { content: none; }
+section.cards.hero-first ul > li:first-child, section.cards.hero-first tbody > tr:first-child { border-color: var(--callout-border); }
+section.cards li strong, section.cards td:first-child { font-size: 26px; font-weight: 600; }
+section.cards.foot tbody > tr td:last-child { margin-top: auto; padding-top: 10px; font-size: 18px; font-family: var(--fontStack-label); color: var(--fgColor-muted); opacity: 0.85; }
+section.cards td em { font-style: normal; font-family: var(--fontStack-label); font-size: 17px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--kicker); }
+section.cards li em { font-style: normal; font-family: var(--fontStack-label); font-size: 18px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--kicker); }
+section.cards table { display: block; border: 0; }
+section.cards thead { display: none; }
+section.cards tbody > tr td { display: block; padding: 0; border: 0 !important; background: none; }
+section.cards tbody > tr td:empty { display: none; }
+section.cards tbody > tr td + td { color: var(--fgColor-muted); font-size: 22px; }
+/* card icon: an icon image (e.g. an Octicon SVG) at the start of a card title becomes a 24px accent line icon in a 48px tinted rounded tile.
+   The icon file stays black; drop-shadow repaints its shape in var(--kicker) 48px to the right, clip-path keeps only that copy. */
+section.cards li:has(> img), section.cards td:first-child:has(> img) { position: relative; }
+section.cards li > img:first-child, section.cards td:first-child > img:first-child { display: block; width: 24px; height: 24px; margin: 12px 0 18px -36px; padding: 0; position: relative; z-index: 1; background: none; filter: drop-shadow(48px 0 0 var(--kicker)); clip-path: inset(0 -48px 0 48px); }
+section.cards li:has(> img)::after, section.cards td:first-child:has(> img)::after { content: ""; position: absolute; top: 0; left: 0; width: 46px; height: 46px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--kicker) 30%, transparent); background: color-mix(in srgb, var(--kicker) 12%, transparent); z-index: 0; }
+section.cards li:has(> img)::after { top: 22px; left: 24px; } /* li carries the card padding; td:first-child doesn't */
+/* .mockup (opt-in, per slide): full-width screenshot on a lavender-to-violet panel. Images under assets/ are excluded. */
+section.mockup h2 { margin-bottom: 16px; }
+section.mockup p > img:not([src*="assets/"]) { box-sizing: border-box; display: block; width: 100%; height: auto !important; max-height: 490px; object-fit: contain; padding: 22px 28px; border-radius: 12px; background: linear-gradient(180deg, #dec8fd 0%, #c298fd 30%, #9e55fc 70%, #8d37fc 100%); }
+/* quote slide: a quote, left accent rule + big mono quote mark (mono accents, no box) */
+section.quote blockquote { position: relative; border: 0; border-left: 3px solid var(--kicker); border-radius: 0; background: none; padding: 6px 0 6px 72px; margin: 20px 0 36px; font-size: 34px; line-height: 1.35; }
+section.quote blockquote::before { content: "\201C"; position: absolute; left: 22px; top: 2px; font-family: var(--fontStack-label); font-size: 64px; line-height: 1; color: var(--kicker); }
+section.quote blockquote p { color: var(--fgColor-default); font-weight: 500; margin: 0; }
+section.quote blockquote p + p { margin-top: 18px; font-family: var(--fontStack-label); font-size: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fgColor-muted); }
+section.quote ul { font-size: 24px; }
+section.quote li { color: var(--fgColor-muted); margin: 8px 0; }
+/* title hero: kicker + big left-aligned title, then a large mockup on a gradient panel bleeding off the bottom */
+section.lead.hero { display: block !important; place-content: start !important; justify-content: flex-start !important; padding: 64px 72px 0 !important; text-align: left; }
+section.lead.hero header { display: block !important; }
+section.lead.hero h1 { font-size: 64px; line-height: 1.05; margin: 26px 0 10px; }
+section.lead.hero p:not(:has(img)) { position: static !important; margin: 0; font-size: 22px; color: var(--fgColor-muted); text-transform: none; font-family: var(--fontStack-sansSerif); letter-spacing: normal; }
+section.lead.hero p:has(> img[src*="mockups/"]) { position: absolute; left: 56px; right: 56px; bottom: 0; height: 390px; margin: 0; padding: 32px 64px 0; overflow: hidden; line-height: 0; border-radius: 24px 24px 0 0; background: linear-gradient(135deg, #d8c8fb 0%, #a98bf5 45%, #bdeccc 100%); }
+section.lead.hero img[src*="mockups/"] { display: block; width: 100%; max-width: none; height: auto; margin: 0; }
+/* cards made from a list with nested bullets */
+section.cards.lists ul ul { display: block; margin: 8px 0 0; padding-left: 1.1em; list-style: disc; }
+section.cards.lists ul ul > li { display: list-item; padding: 0; margin: 6px 0; background: none; border: 0; min-height: 0; font-size: 22px; color: var(--fgColor-muted); }
+section.cards.lists ul > li > strong { font-size: 26px; }
+/* caption above a mockup */
+section.mockup p:has(> code):not(:has(img)) { margin: -8px 0 10px; font-size: 22px; color: var(--fgColor-muted); }
+section .muted { color: var(--fgColor-muted); font-weight: 400; }
+section.note > p:last-of-type { font-size: 21px; line-height: 1.4; color: var(--fgColor-muted); margin-top: 6px; }
+section.note > p:last-of-type strong { color: var(--fgColor-default); }
+section.cards.cols-5 tbody > tr { padding: 18px 18px; }
+section.cards.cols-5 td:first-child { font-size: 22px; }
+section.cards.cols-5 tbody > tr td + td { font-size: 19px; }
+section.mockup:has(p > code) img:not([src*="assets/icons/"]) { max-height: 420px !important; }
+/* user journey: steps linked by arrows, pain pinned at the bottom of each step */
+section.journey tbody { gap: 40px !important; counter-reset: step; }
+section.journey tbody > tr { position: relative; overflow: visible; counter-increment: step; }
+section.journey tbody > tr:not(:last-child)::after { content: ""; position: absolute; right: -32px; top: 50%; width: 24px; height: 2px; background: var(--kicker); }
+section.journey tbody > tr:not(:last-child)::before { content: ""; position: absolute; right: -34px; top: calc(50% - 5px); width: 0; height: 0; border-left: 8px solid var(--kicker); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+section.journey tbody > tr td:first-child strong::before { content: counter(step) " · "; color: var(--kicker); }
+section.journey tbody > tr td:nth-child(2) { font-size: 19px; min-height: 100px; }
+section.journey tbody > tr td:first-child { min-height: 110px; }
+section.journey tbody > tr td:nth-child(3) { padding-top: 10px; font-family: var(--fontStack-label); font-size: 17px !important; letter-spacing: 0.04em; text-transform: uppercase; color: #ff7b72 !important; }
+section.journey tbody > tr td:last-child { margin-top: 6px; min-height: 96px; padding: 8px 10px !important; border-radius: 8px; background: rgba(248,81,73,0.12) !important; border: 1px solid rgba(248,81,73,0.4) !important; color: #ffa198 !important; font-size: 18px !important; font-weight: 500; }
+section.light.journey tbody > tr td:last-child, section.journey.light tbody > tr td:last-child { color: #d1242f !important; background: #ffebe9 !important; }
+section.backup-table table { font-size: 20px; }
+section.backup-table td, section.backup-table th { padding: 11px 24px 11px 0 !important; }
+section.backup-table h2 { margin-bottom: 28px !important; }
+section.backup-table blockquote { margin-top: 26px !important; padding: 14px 22px !important; }
+section.backup-table h2 { margin-bottom: 14px; }
+section.backup-table td a { text-decoration: none; color: inherit; border-bottom: 1px solid var(--callout-border); }
+section.backup-table td a:hover { color: var(--kicker); }
+section.backup-table td a code { border-bottom: 0; }
+section.backup-table blockquote { font-size: 19px; padding: 10px 18px; margin-top: 8px; }
+section.lead:not(.hero) h1 { font-size: 64px; }
+section.lead:not(.hero) p { font-size: 26px; }
+/* success metrics as a metric tree: main metric <- drivers, plus guardrails */
+section.metrics .mtree { display: grid; grid-template-columns: 1.15fr 40px 1fr 1fr; gap: 16px; align-items: center; margin-top: 4px; }
+section.metrics .mt-col { display: flex; flex-direction: column; gap: 10px; }
+section.metrics .mt-kind { font-family: var(--fontStack-label); font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--kicker); }
+section.metrics .mt-kind.mt-guard { color: #d29922; }
+section.metrics .mt-card { background: var(--card); border: 1px solid var(--borderColor-default); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; }
+section.metrics .mt-card b { font-size: 21px; color: var(--fgColor-default); font-weight: 600; }
+section.metrics .mt-card span { font-size: 17px; color: var(--fgColor-muted); line-height: 1.3; }
+section.metrics .mt-card code { font-size: 15px; }
+section.metrics .mt-main { border-color: var(--callout-border); padding: 22px 20px; }
+section.metrics .mt-main b { font-size: 28px; line-height: 1.15; }
+section.metrics .mt-main em { font-style: normal; font-family: var(--fontStack-label); font-size: 14px; color: var(--kicker); margin-top: 6px; }
+section.metrics .mt-g { border-color: rgba(210,153,34,0.45); }
+section.metrics .mt-arrow { font-size: 30px; color: var(--kicker); text-align: center; }
+/* opportunities table with plan tags */
+section.opps table { font-size: 19px; }
+section.opps td, section.opps th { padding-top: 4px !important; padding-bottom: 4px !important; }
+section.opps > p:last-of-type { margin-top: 2px; font-size: 18px; }
+section.opps h2 { margin-bottom: 12px; }
+section.opps .tg { font-family: var(--fontStack-label); font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1px solid; white-space: nowrap; margin-right: 6px; }
+section.opps .tg.pick { color: #0d1117; background: var(--kicker); border-color: var(--kicker); }
+section.opps .tg.quick { color: var(--kicker); border-color: var(--callout-border); }
+section.opps .tg.later { color: var(--fgColor-muted); border-color: var(--borderColor-default); }
+section.opps .tg.drop { color: #ff7b72; border-color: rgba(248,81,73,0.5); }
+section.opps tr:has(.pick) td { color: var(--fgColor-default); }
+section.metrics .mt-main span b.mt-k { font-size: 17px; color: var(--kicker); font-weight: 600; }
+section p.sub { margin: -10px 0 12px; font-size: 24px; color: var(--fgColor-muted); }
+section p.sub b { color: var(--kicker); font-weight: 600; }
+section.mockup:has(p.sub) p > img:not([src*="assets/icons/"]) { max-height: 440px !important; }
+
+/* ============ paper: the default theme (deck-kit). Everything above is the copilot look; these rules restyle it. ============ */
+section[data-theme="deck-kit"] {
+  --canvas: #f7f4ee; --dot: #e2dacb; --card: #fffdf8;
+  --fgColor-default: #1f1c18; --fgColor-muted: #6d665c; --fgColor-accent: #b5461f; --fgColor-attention: #9a6700;
+  --kicker: #c2461c; --callout-border: #c2461c;
+  --borderColor-default: #e2dacb; --borderColor-muted: #e2dacbb3; --bgColor-neutral-muted: #1f1c180f;
+  --bgColor-attention-muted: #fbefcf; --bgColor-attention-emphasis: #9a6700; --borderColor-attention-muted: #d4a72c66;
+  --fontStack-heading: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --fontStack-label: var(--fontStack-sansSerif);
+  --panel: linear-gradient(135deg, #f1dccb 0%, #e5b595 50%, #d9c7a9 100%);
+}
+section[data-theme="deck-kit"].dark {
+  --canvas: #1a1815; --dot: #36312b; --card: #23201c;
+  --fgColor-default: #f4efe6; --fgColor-muted: #a79f93; --fgColor-accent: #f08a5d; --fgColor-attention: #e3b341;
+  --kicker: #f08a5d; --callout-border: #f08a5d99;
+  --borderColor-default: #3a352f; --borderColor-muted: #3a352fb3; --bgColor-neutral-muted: #f4efe614;
+  --bgColor-attention-muted: #e3b3411f; --bgColor-attention-emphasis: #bb8009; --borderColor-attention-muted: #e3b34166;
+  --panel: linear-gradient(135deg, #3a2a20 0%, #6b3b24 50%, #3b3326 100%);
+}
+/* headlines: serif, a little tighter; em = italic accent instead of tracked caps */
+section[data-theme="deck-kit"] h1, section[data-theme="deck-kit"] h2 { font-weight: 600; letter-spacing: -0.01em; }
+section[data-theme="deck-kit"] h1 em, section[data-theme="deck-kit"] h2 em { font-style: italic; letter-spacing: normal; }
+/* kicker: accent-colored small caps after a short rule, no block cursor */
+section[data-theme="deck-kit"] header { font-size: 17px; font-weight: 700; letter-spacing: 0.14em; color: var(--kicker); }
+section[data-theme="deck-kit"] header::before { content: ""; display: inline-block; width: 32px; height: 2px; margin-right: 14px; vertical-align: 0.3em; background: var(--kicker); }
+section[data-theme="deck-kit"] header::after, section[data-theme="deck-kit"] header:empty::before { content: none; }
+section[data-theme="deck-kit"] footer, section[data-theme="deck-kit"][data-marpit-pagination]::after { font-size: 16px; letter-spacing: 0.04em; }
+/* lead slides: plain paper with an accent bar on the left instead of the dot grid */
+section[data-theme="deck-kit"].lead { background-image: none; box-shadow: inset 10px 0 0 var(--kicker); }
+section[data-theme="deck-kit"].lead.hero header { display: block !important; }
+/* cards, callouts, tables: squarer corners, softer lines */
+section[data-theme="deck-kit"].cards ul > li, section[data-theme="deck-kit"].cards tbody > tr, section[data-theme="deck-kit"] blockquote, section[data-theme="deck-kit"].metrics .mt-card { border-radius: 6px; box-shadow: 0 1px 2px #1f1c180d; }
+section[data-theme="deck-kit"] blockquote { border-width: 0 0 0 3px; border-radius: 0 6px 6px 0; }
+section[data-theme="deck-kit"].cards li em, section[data-theme="deck-kit"].cards td em { font-size: 15px; font-weight: 700; letter-spacing: 0.12em; }
+section[data-theme="deck-kit"] table th { font-size: 15px; font-weight: 700; letter-spacing: 0.12em; }
+section[data-theme="deck-kit"].quote blockquote { border-width: 0 0 0 3px; box-shadow: none; }
+section[data-theme="deck-kit"].quote blockquote::before { font-family: var(--fontStack-heading); font-size: 80px; }
+section[data-theme="deck-kit"].quote blockquote p:first-child { font-family: var(--fontStack-heading); font-style: italic; }
+/* code block and image panels in warm tones */
+section[data-theme="deck-kit"] pre { background: #1f1c18; border-color: #3a352f; border-radius: 6px; }
+section[data-theme="deck-kit"].mockup p > img:not([src*="assets/"]) { background: var(--panel); border-radius: 6px; }
+section[data-theme="deck-kit"].lead.hero p:has(> img[src*="mockups/"]) { background: var(--panel); border-radius: 10px 10px 0 0; }
+section[data-theme="deck-kit"]:not(.dark).journey tbody > tr td:last-child { color: #b42318 !important; background: #fdecea !important; }
+section[data-theme="deck-kit"] .todo { border-radius: 4px; }
+section[data-theme="deck-kit"].cards li > strong, section[data-theme="deck-kit"].cards td:first-child, section[data-theme="deck-kit"].agenda > ol > li > strong { font-family: var(--fontStack-heading); }
