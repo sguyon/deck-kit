@@ -209,8 +209,40 @@
   var st = document.createElement('style')
   st.textContent =
     '.bespoke-marp-presenter-note-container{padding:24px 28px !important}' +
-    '.bespoke-marp-note, .bespoke-marp-note p{font:400 17px/1.6 -apple-system,"Segoe UI",sans-serif !important;white-space:pre-wrap !important;color:#e6edf3 !important;max-width:62ch}' 
+    '.bespoke-marp-note, .bespoke-marp-note p{font:400 17px/1.6 -apple-system,"Segoe UI",sans-serif !important;color:#e6edf3 !important;max-width:60ch}' +
+    '.dk-notes-h{font:700 11px -apple-system,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8b949e;margin:0 0 10px}' +
+    '.dk-notes p{margin:0 0 .65em !important}' +
+    '.dk-notes ul{margin:0 0 .65em;padding-left:1.1em}.dk-notes li{margin:.25em 0}' +
+    '.dk-notes .lbl{display:block;font:700 11px -apple-system,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8b949e;margin:1em 0 .3em}' +
+    '.dk-notes code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#ffffff14;border-radius:4px;padding:1px 5px}'
   document.head.appendChild(st)
+  // Notes are HTML comments ("Speaker notes: ..."). Format them for reading while presenting:
+  // drop the prefix, `code` spans, blank-line paragraphs, "- " bullets, ALL-CAPS lines as small labels.
+  // A single long paragraph is split into one sentence per line so it can be read at a glance.
+  function esc(t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }
+  function inline(t) { return esc(t).replace(/`([^`]+)`/g, '<code>$1</code>') }
+  function format(el) {
+    if (el.dataset.dkFormatted) return
+    var raw = (el.innerText || el.textContent).replace(/^\s*Speaker notes:?\s*/i, '').trim()
+    if (!raw) return
+    var lines = raw.split(/\n/)
+    if (lines.length === 1) lines = raw.split(/(?<=[.!?])\s+(?=[A-Z`"“])/)
+    var html = '', list = false
+    lines.forEach(function (ln) {
+      var t = ln.trim()
+      var bullet = /^[-•*]\s+/.test(t)
+      if (list && !bullet) { html += '</ul>'; list = false }
+      if (!t) return
+      if (bullet) { if (!list) { html += '<ul>'; list = true } html += '<li>' + inline(t.replace(/^[-•*]\s+/, '')) + '</li>' }
+      else if (/^[A-Z][A-Z0-9 '’"“”?:/-]{2,}$/.test(t)) html += '<span class="lbl">' + inline(t) + '</span>'
+      else html += '<p>' + inline(t) + '</p>'
+    })
+    if (list) html += '</ul>'
+    el.innerHTML = '<div class="dk-notes-h">Speaker notes</div><div class="dk-notes">' + html + '</div>'
+    el.dataset.dkFormatted = '1'
+  }
+  function run() { document.querySelectorAll('.bespoke-marp-note').forEach(format) }
+  document.addEventListener('DOMContentLoaded', run); run(); setTimeout(run, 400)
 })()
 
 // Comment mode: press C, click any element, type a comment, Enter.

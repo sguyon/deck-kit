@@ -1,0 +1,114 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>deck-kit: how a slide is put together</title>
+<!-- README image. 880 CSS px wide (GitHub README column), rendered at 2x by the screenshot script.
+     Example: Pronto, a made-up food-delivery app. Sources: src/pronto.md (mockup spec), src/slide.md (the slide). -->
+<style>
+  :root { --canvas:#f7f4ee; --card:#fffdf8; --fg:#1f1c18; --muted:#6d665c; --faint:#9a9084; --accent:#c2461c; --border:#e2dacb;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace; }
+  * { box-sizing:border-box } body { margin:0; background:var(--canvas); color:var(--fg); font-family:var(--sans) }
+  .stage { width:880px; padding:34px 36px 36px }
+  h1 { font:600 28px var(--serif); margin:0 0 6px; letter-spacing:-.01em }
+  .sub { font-size:14.5px; color:var(--muted); margin:0 0 26px; line-height:1.45 }
+
+  .step { display:grid; grid-template-columns:44px 1fr; position:relative }
+  .step:not(:last-child)::before { content:""; position:absolute; left:13px; top:30px; bottom:-4px; width:2px; background:var(--border) }
+  .num { width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font:700 13px var(--sans); display:grid; place-items:center; position:relative; z-index:1 }
+  .label { font:700 12px var(--sans); letter-spacing:.12em; text-transform:uppercase; color:var(--fg); margin:6px 0 10px }
+  .label span { font-weight:400; letter-spacing:0; text-transform:none; color:var(--muted); margin-left:8px; font-size:13px }
+
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:24px }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:10px; box-shadow:0 4px 14px rgba(60,40,20,.06); overflow:hidden }
+  .file { display:flex; justify-content:space-between; align-items:baseline; padding:8px 12px; border-bottom:1px solid var(--border); font:600 12.5px var(--mono) }
+  .file span { font:400 11.5px var(--sans); color:var(--muted) }
+  pre { margin:0; padding:10px 12px; font:11.5px/1.55 var(--mono); white-space:pre-wrap; color:#3a342c; min-height:132px }
+  .k { color:var(--accent) } .c { color:var(--faint) } .h { color:var(--fg); font-weight:700 }
+
+  .prompt { background:#fff; border:1.5px solid #d8cdbd; border-radius:12px; box-shadow:0 4px 14px rgba(60,40,20,.06); padding:10px 14px 12px }
+  .prompt .path { font:12px var(--mono); color:var(--faint); margin-bottom:6px }
+  .prompt .box { display:flex; gap:10px; font:14.5px/1.5 var(--sans); color:var(--fg) }
+  .prompt .caret { font:700 15px var(--mono); color:var(--accent); align-self:flex-start; line-height:1.45 }
+  .prompt .box { align-items:flex-end }
+  .prompt .t { flex:1 }
+  .prompt .send { flex:none; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; display:grid; place-items:center; font:700 15px var(--sans); margin-left:12px }
+  .prompt .t::after { content:""; display:inline-block; width:2px; height:1.1em; background:var(--fg); vertical-align:-3px; margin-left:2px }
+
+  .shot { display:block; width:100%; border-radius:8px; border:1px solid var(--border); box-shadow:0 4px 14px rgba(60,40,20,.08) }
+  .ph { position:relative } .ph .tag { position:absolute; left:50%; top:58%; transform:translate(-50%,-50%); font:600 12px var(--sans); color:#7a4a2c; border:1.5px dashed rgba(122,74,44,.5); border-radius:7px; padding:5px 10px; background:rgba(255,253,248,.65); white-space:nowrap }
+  .cap { font-size:12px; color:var(--muted); margin-top:6px }
+
+  .conn { display:block; margin:6px 0 4px }
+  .pill { font:600 11px ui-monospace,Menlo,monospace; fill:#6d665c }
+
+  .final { width:100% }
+  .notes { margin-top:8px; background:#1f1c18; color:#efe8dc; border-radius:8px; padding:9px 13px; font-size:12.5px; line-height:1.45 }
+  .notes b { font:600 11px var(--sans); color:#d9cfc1; display:inline-block; margin-bottom:2px }
+</style></head>
+<body><div class="stage">
+  <h1>How a slide is put together</h1>
+  <p class="sub">You prompt. Your agent writes two plain-text files. deck-kit renders them and puts them together.</p>
+
+  <div class="step"><div class="num">1</div><div>
+    <div class="label">Prompt</div>
+    <div class="prompt">
+      <div class="path">~/pronto-reorder-pitch</div>
+      <div class="box"><span class="caret">›</span><span class="t">Add a slide proposing one-tap reorder on Pronto's home screen, with a mockup and callouts on the new button and the delivery time.</span><span class="send">↑</span></div>
+    </div>
+    <svg class="conn" width="764" height="34" viewBox="0 0 764 34">
+      <g stroke="#b8ab99" stroke-width="1.5" fill="none"><path d="M382 0 V14 M185 14 H579 M185 14 V26 M579 14 V26"/></g>
+      <path d="M180 25 L185 32 L190 25 Z M574 25 L579 32 L584 25 Z" fill="#b8ab99"/>
+    </svg>
+  </div></div>
+
+  <div class="step"><div class="num">2</div><div>
+    <div class="label">The agent writes<span>two plain-text files</span></div>
+    <div class="two">
+      <div class="card">
+        <div class="file">deck.md <span>the slide + speaker notes</span></div>
+<pre><span class="c">&lt;!-- _class: mockup --&gt;</span>
+<span class="h">## One tap to reorder your usual</span>
+
+<span class="k">![](mockups/out/pronto.png)</span>
+
+<span class="c">&lt;!-- Speaker notes: Most orders repeat
+a past one. Today that's 4 steps;
+this makes it one tap. --&gt;</span></pre>
+      </div>
+      <div class="card">
+        <div class="file">mockups/specs/pronto.md <span>the screen, as text</span></div>
+<pre><span class="k">kind:</span> web
+<span class="k">title:</span> Good evening, Alex
+<span class="k">button*:</span> Reorder your usual
+<span class="k">stats:</span> Your usual | Pad thai ¦ …
+       Arrives in | 25 min
+<span class="k">annotate:</span>
+  frame: button#2 | One tap</pre>
+      </div>
+    </div>
+    <svg class="conn" width="764" height="34" viewBox="0 0 764 34">
+      <g stroke="#b8ab99" stroke-width="1.5" fill="none"><path d="M185 0 V26 M579 0 V26"/></g>
+      <path d="M180 25 L185 32 L190 25 Z M574 25 L579 32 L584 25 Z" fill="#b8ab99"/>
+      <text class="pill" x="196" y="19">watch.sh</text><text class="pill" x="590" y="19">render.sh</text>
+    </svg>
+  </div></div>
+
+  <div class="step"><div class="num">3</div><div>
+    <div class="label">deck-kit renders<span>each file on its own</span></div>
+    <div class="two">
+      <div class="ph"><img class="shot" src="slide-shell.png"><div class="tag">the mockup goes here</div><div class="cap">The slide: layout, title, caption</div></div>
+      <div style="padding-top:36px"><img class="shot" src="mockup.png"><div class="cap">The mockup: an image, callouts included</div></div>
+    </div>
+    <svg class="conn" width="764" height="34" viewBox="0 0 764 34">
+      <g stroke="#b8ab99" stroke-width="1.5" fill="none"><path d="M185 0 V14 M579 0 V14 M185 14 H579 M382 14 V26"/></g>
+      <path d="M377 25 L382 32 L387 25 Z" fill="#b8ab99"/>
+    </svg>
+  </div></div>
+
+  <div class="step"><div class="num">4</div><div>
+    <div class="label">You present<span>the finished slide, with your notes</span></div>
+    <div class="final">
+      <img class="shot" src="slide-final.png">
+      <div class="notes"><b>Your speaker notes · only you see them, in presenter view</b><br>Most orders repeat a past one. Today that's 4 steps; this makes it one tap.</div>
+    </div>
+  </div></div>
+</div></body></html>

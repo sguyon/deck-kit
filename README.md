@@ -1,6 +1,11 @@
 # deck-kit
 
-A Markdown-to-slides workflow on [Marp](https://marp.app). You write `deck.md`; a background watcher re-renders it on save.
+A kit for building presentations with an AI agent, in two parts:
+
+- **The deck**: slides written in Markdown (`deck.md`) and rendered by [Marp](https://marp.app), with a live preview that re-renders on save and a comment mode to point the agent at what to change.
+- **The mockups**: product screens (a terminal or a web app) generated from a few lines of text in `mockups/specs/`, so the agent can write and edit them like the slides.
+
+### The deck
 
 ![Title slide of the example deck](docs/screenshots/title.png)
 <sub>A slide in the live preview</sub>
@@ -8,16 +13,68 @@ A Markdown-to-slides workflow on [Marp](https://marp.app). You write `deck.md`; 
 ![Slide overview: every slide of the deck in one HTML page](docs/screenshots/overview.png)
 <sub>The whole deck is one HTML page: press <b>O</b> for the overview</sub>
 
-On top of Marp's output it adds:
+What you get:
 
-- **Change badges**: slides that changed since you last looked get an "Updated" pill.
-- **Two themes with a switcher**: *paper* (default: warm, serif headlines) and *copilot* (dark terminal look), each with a dark and a light mode, plus a clean `?present` mode.
-- **Comment mode**: click any element on a slide, type a note, and it lands in `comments.md`, ready to hand to an AI assistant (or a teammate).
-- **Fast screenshots** of rendered slides, for quick visual checks.
-- **A mockup generator**: turns a small text spec into a PNG of a CLI screen or a web app in a browser window, with optional numbered annotation frames. Each spec renders in both themes' styles, and the preview shows the one that matches.
+- **Slides in plain text that update live.** You (or your agent) write `deck.md`; the deck in your browser refreshes on every save and marks the slides that changed.
+- **Comment on the page to change a slide.** Click any element and type a note ("smaller font", "move this up"). It goes to a file your agent reads and applies.
 
+![Comment mode: a note typed on a slide element](docs/screenshots/comment.png)
+
+- **Present and export.** Presenter view with your notes, the next slide and a timer; export to PDF or HTML.
+
+![Presenter view: current slide, next slide, speaker notes and timer](docs/screenshots/presenter.png)
+
+- **Two themes, each in light and dark,** with quiet transitions between slides: a warm *paper* style and a dark *terminal* style. Ask your agent to [adjust them](https://marpit.marp.app/theme-css), or use any existing [Marp theme](https://github.com/marp-team/marp-core/tree/main/themes).
+
+| | light | dark |
+|---|---|---|
+| **paper** | ![paper, light](docs/screenshots/cards-paper-light.png) | ![paper, dark](docs/screenshots/cards-paper-dark.png) |
+| **terminal** (`copilot`) | ![copilot, light](docs/screenshots/cards-copilot-light.png) | ![copilot, dark](docs/screenshots/cards-copilot-dark.png) |
+
+### The mockups
+
+**Product screens from a description.** Describe a screen in a few lines, a web-app page or a terminal session, and get a clean mockup image, with numbered callouts if you want them. Change the description, get a new image; no design tool needed. Your agent can write and edit the descriptions like the slides.
+
+![Web-app mockup with callouts](mockups/out/deploy-annotated.png)
+
+![Terminal mockup with callouts](mockups/out/review-annotated.png)
 
 ## How it works
+
+![How a slide is put together: a prompt, the two text files the agent writes, what deck-kit renders from each, and the finished slide](docs/screenshots/assembly.png)
+
+### With an agent: from brief to finished deck
+
+Open the repo in your coding agent (Claude Code, Codex, Cursor…), start `./watch.sh`, open `deck.live.html`, and talk to the agent. The example follows a made-up product, Pronto, a food-delivery app, and a proposal to add one-tap reorder to its home screen.
+
+1. **Brief it.** The problem, the audience, the time limit, what they'll judge.
+   > *"I need a 5-minute pitch for Pronto's head of product: add a one-tap 'Reorder your usual' button to the home screen. They care about repeat orders and checkout drop-off, and they'll ask what it costs to build. Draft `deck.md`: one idea per slide, speaker notes under each."*
+2. **Shape the outline.** Ask for the structure before the words.
+   > *"Go problem → who reorders → the proposal → what it changes → metrics → rollout. Six slides; put the repeat-order numbers on their own slide."*
+3. **Describe the screens.** Mockups are text specs, so ask for them like slides.
+   > *"Add a mockup of the new home screen: a greeting, the usual order, the delivery time, and a Reorder button. Number the button and the delivery time."*
+4. **Review in the browser.** Press **C**, click what's wrong, type a short note. The agent reads `comments.md` and applies them; changed slides get an "Updated" badge.
+   > *"bigger button"* · *"move the metrics before the rollout"* · *"too much text, split it"*
+5. **Let it check its work.** The agent reviews the slides it changed and fixes the layout before it tells you it's done.
+   > *"Check slides 3–4 in both themes and fix anything that overflows."*
+6. **Rehearse and ship.** Press **P** for presenter view with your notes and a timer, then export.
+   > *"I ran it and it's 7 minutes. Cut to 5: tell me which slide to drop and trim the notes."*
+
+### What deck-kit adds to Marp
+
+[Marp](https://marp.app) turns Markdown into slides. deck-kit adds what's described above (live preview with change badges, comments, two themes, mockups), plus:
+
+- **A clean presenting mode**: open `deck.live.html?present` and every helper disappears.
+- **Transitions**: a quick fade, titles that stay put, and a zoom from a screen into its detail.
+- **Screenshots on demand** (`shot.sh`): how the agent checks its own work.
+- **Speaker notes for rehearsal** (`speaker-notes.sh`): collects every slide's notes into one file.
+- **Agent rules** (`AGENTS.md`): how any coding agent should work in the repo.
+
+### Under the hood
+
+You don't need to read this part. Your agent will know.
+
+Everything is plain files and a few small scripts: no app to install, no build step. `watch.sh` runs Marp in watch mode: each time `deck.md` is saved, it re-renders `deck.live.html` with the two themes (`theme.css`, `theme-copilot.css`) and adds one script, `live-badges.js`, which handles the change badges, the theme switch, the transitions and comment mode in the browser. Comments go to a tiny local server (`comment-server.py`) that appends them to `comments.md`. Mockups are separate: `mockups/render.sh` turns each text spec into an HTML page and screenshots it with a headless browser, and the slides reference the PNGs it writes. The two diagrams below show both paths.
 
 **1. The live deck: from Markdown to your browser**
 
@@ -148,10 +205,7 @@ Two Marp themes share every layout:
 - **`deck-kit`** (default), *paper*: warm off-white canvas, serif headlines, terracotta accent. Light by default; dark mode is the class `dark`.
 - **`deck-kit-copilot`**, *copilot*: the terminal look, with Primer color tokens, mono labels and a dot grid on title slides. Dark by default; light mode is the class `light`.
 
-| | light | dark |
-|---|---|---|
-| **paper** | ![paper, light](docs/screenshots/cards-paper-light.png) | ![paper, dark](docs/screenshots/cards-paper-dark.png) |
-| **copilot** | ![copilot, light](docs/screenshots/cards-copilot-light.png) | ![copilot, dark](docs/screenshots/cards-copilot-dark.png) |
+Screenshots of both themes in both modes are at the top of this README.
 
 - **Pick one for the deck** with `theme: deck-kit` or `theme: deck-kit-copilot` in the front matter of `deck.md`. The static exports (`npm run build` / `pdf`) use it.
 - **Switch live** in `deck.live.html` with **T** (theme) and **D** (mode). Each theme remembers its own mode.
@@ -171,15 +225,11 @@ Fonts use system stacks. To use your own font, put the files in `assets/fonts/`,
 4. Embed the plain name, `![](mockups/out/review.png)`. In the live preview the image follows **T** and **D**. For a static copilot export, point the image at `review-copilot.png` yourself.
 5. `mockups/specs/examples/roles.md` shows every role; see `mockups/README.md` for the full format.
 
-`mockups/specs/review.md`, annotated:
-
-![Annotated terminal mockup](mockups/out/review-annotated.png)
+`mockups/specs/review.md` is the terminal example and `mockups/specs/deploy.md` the web one; both are shown at the top of this README.
 
 **Web-app mockups.** Put `kind: web` in the front matter and describe the page with blocks instead of terminal lines: `title`, `button` / `button*` (primary), `stats`, `table` + `row` (`{ok}Fixed` becomes a status pill), `chart`, `card`, `text`, `toast`. The front matter sets the browser and app chrome: `url`, `tab`, `nav`, `user`. Two more blocks take indented lines: `code:` (a file panel with line numbers) and `slides:` (a grid of slide thumbnails, `Title | Updated`). `annotate:` works the same way; targets are block names, with `#n` for the n-th one (`row#2`, `stats#4`).
 
 The example deck's mockups all show one made-up product, Acme Deploy: its web dashboard (`specs/overview.md` on the title slide, `specs/deploy.md` annotated) and its `acme` CLI (`specs/review.md`, `specs/start.md`).
-
-![Web-app mockup, paper style](mockups/out/deploy-annotated.png)
 
 On a slide, with the `mockup` class:
 
