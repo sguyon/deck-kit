@@ -367,11 +367,14 @@
     skip.add(prev); z.querySelectorAll('img').forEach(function (im) { skip.add(im) })
     css += '::view-transition-group(' + n + '){overflow:hidden;border-radius:12px;animation-duration:.45s}' +
       '::view-transition-old(' + n + '){animation:dkzOut .45s cubic-bezier(.4,0,.2,1) both;transform-origin:' + o + '}' +
-      '::view-transition-new(' + n + '){animation:dkzIn .45s cubic-bezier(.4,0,.2,1) both;transform-origin:' + o + '}'
+      '::view-transition-new(' + n + '){animation:dkzIn .45s cubic-bezier(.4,0,.2,1) both;transform-origin:' + o + '}' +
+      // zoom only between the two slides; arriving at the mockup from elsewhere (or leaving the close-up) = the normal quick fade
+      '::view-transition-new(' + n + '):only-child{animation:dkzFadeIn .12s ease both}' +
+      '::view-transition-old(' + n + '):only-child{animation:dkzFadeOut .12s ease both}'
   })
   if (css) {
     var st = document.createElement('style')
-    st.textContent = css + '@keyframes dkzOut{to{transform:scale(1.9);opacity:0}}@keyframes dkzIn{from{transform:scale(.53);opacity:0}}'
+    st.textContent = css + '@keyframes dkzOut{to{transform:scale(1.9);opacity:0}}@keyframes dkzIn{from{transform:scale(.53);opacity:0}}@keyframes dkzFadeIn{from{opacity:0}}@keyframes dkzFadeOut{to{opacity:0}}'
     document.head.appendChild(st)
   }
   sections.forEach(function (sec) {

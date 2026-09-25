@@ -1,10 +1,13 @@
 # deck-kit
 
-**Build product presentations with your AI agent, and stay in control of every slide.**
+**Product presentations, built with your AI agent.**<br>
+Create slides, product mockups and talk track in one agent session.
 
-Slide tools make you choose: build every slide by hand, or let an AI generator produce a deck you can't steer. deck-kit keeps the agent's speed and gives you the control: the slides and the product screens are plain text files your coding agent writes, and you review them in the browser by pointing at what's wrong.
+A product presentation is three things that have to stay in sync: the argument, the slides and the product screens. They usually live in three places: a chat with your AI, a slide app and a design tool. deck-kit keeps them in one folder your coding agent can edit. It writes the slides, the product screens and the speaker notes as plain files; you review them in the browser and point at what to change. It's built on [Marp](https://marp.app), which renders the slides; deck-kit adds the text-based mockups, the live review loop and the process the agent follows, from brief to export.
 
-![How a slide is put together: a prompt, the two text files the agent writes, what deck-kit renders from each, and the finished slide](docs/screenshots/assembly.png)
+![Comment on a slide, the agent edits deck.md, the slide updates](docs/screenshots/loop.gif)
+
+**[▶ Try the live example deck](https://sguyon.github.io/deck-kit/)**: arrows to move, **O** for the overview, **T** and **D** for themes.
 
 ## Quick start
 
@@ -46,6 +49,8 @@ Add `?present` to the address to hide every helper while you present.
 ## How to use it
 
 Open the folder in your coding agent (Claude Code, Codex, Cursor…) and work in two windows: the agent, and the live deck in your browser. The example follows Pronto, a made-up food-delivery app, and a proposal to add one-tap reorder to its home screen.
+
+![How a slide is put together: a prompt, the two text files the agent writes, what deck-kit renders from each, and the finished slide](docs/screenshots/assembly.png)
 
 1. **Brief it.** The problem, the audience, the time limit, what they'll judge.
    > *"I need a 5-minute pitch for Pronto's head of product: add a one-tap 'Reorder your usual' button to the home screen. They care about repeat orders and checkout drop-off, and they'll ask what it costs to build. Draft `deck.md`: one idea per slide, speaker notes under each."*
