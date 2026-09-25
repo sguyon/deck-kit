@@ -5,9 +5,9 @@ Turns small text specs into PNG screenshots of a fictional command-line app: a m
 ## Render
 
 ```bash
-mockups/render.sh                         # all specs/*.md -> out/<name>.png (paper) + out/<name>-copilot.png
+mockups/render.sh                         # all specs/*.md -> out/<name>.png (paper) + out/<name>-terminal.png
 mockups/render.sh mockups/specs/start.md  # one spec
-mockups/render.sh --all                   # also out/<name>-dark.png and out/<name>-copilot-light.png
+mockups/render.sh --all                   # also out/<name>-dark.png and out/<name>-terminal-light.png
 mockups/render.sh --svg                   # plus out/<name>.svg
 ```
 
@@ -23,10 +23,10 @@ The same spec renders in the style of each deck theme; the palette decides the l
 |---|---|---|
 | `paper` (default) | plain terminal: one-line banner (`app version · tagline`), content, a shell prompt (`cwd (branch) $ prompt`) | `<name>.png` |
 | `paper-dark` | same, dark palette | `<name>-dark.png` |
-| `dark` | CLI-assistant screen: header card, status line, prompt bar, footer | `<name>-copilot.png` |
-| `light` | same, light palette | `<name>-copilot-light.png` |
+| `dark` | CLI-assistant screen: header card, status line, prompt bar, footer | `<name>-terminal.png` |
+| `light` | same, light palette | `<name>-terminal-light.png` |
 
-Keys only the copilot look draws (`welcome:` right pane, `status_right`, `model`, `mode`, footer) are ignored by the paper look; annotation targets such as `welcome` or `prompt` still resolve. Palettes are the `THEMES` dict in `tools/render.py`.
+Keys only the terminal look draws (`welcome:` right pane, `status_right`, `model`, `mode`, footer) are ignored by the paper look; annotation targets such as `welcome` or `prompt` still resolve. Palettes are the `THEMES` dict in `tools/render.py`.
 
 ## Spec format
 
@@ -97,7 +97,7 @@ Frame targets: a role name (`thought`, `user`), the n-th of a role (`tool#2`), n
 - `specs/start.md`: start screen and a short exchange.
 - `specs/review.md`: a proposed edit with three annotation frames.
 - `specs/examples/roles.md`: every role and inline style (not rendered by default).
-- `specs/overview.md`, `specs/deploy.md`: two pages of Acme Deploy's web dashboard (`kind: web`), the made-up app used in the example deck; `deploy.md` has annotation frames.
+- `specs/orders.md`, `specs/home.md`: two pages of Pronto, the made-up food-delivery app used in the example deck (`kind: web`); `home.md` has annotation frames.
 
 ## Web-app mockups (`kind: web`)
 

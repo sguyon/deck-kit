@@ -4,7 +4,7 @@
 /* Two themes share every layout below:
    - deck-kit (default): "paper", warm light canvas, serif headlines. Its rules are at the end of this file,
      scoped to section[data-theme="deck-kit"]; class `dark` = its dark mode.
-   - deck-kit-copilot (theme-copilot.css, which only imports this file): the terminal look written right below;
+   - deck-kit-terminal (theme-terminal.css, which only imports this file): the terminal look written right below;
      dark by default, class `light` = its light mode. Colors are GitHub Primer functional tokens (MIT).
    Pick one with `theme:` in the deck's front matter; in the live preview press T (theme) and D (dark / light).
    Fonts: system stacks; see README to add your own. */
@@ -238,7 +238,7 @@ section p.sub { margin: -10px 0 12px; font-size: 24px; color: var(--fgColor-mute
 section p.sub b { color: var(--kicker); font-weight: 600; }
 section.mockup:has(p.sub) p > img:not([src*="assets/icons/"]) { max-height: 440px !important; }
 
-/* ============ paper: the default theme (deck-kit). Everything above is the copilot look; these rules restyle it. ============ */
+/* ============ paper: the default theme (deck-kit). Everything above is the terminal look; these rules restyle it. ============ */
 section[data-theme="deck-kit"] {
   --canvas: #f7f4ee; --dot: #e2dacb; --card: #fffdf8;
   --fgColor-default: #1f1c18; --fgColor-muted: #6d665c; --fgColor-accent: #b5461f; --fgColor-attention: #9a6700;

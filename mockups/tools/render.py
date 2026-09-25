@@ -6,7 +6,7 @@
 Two looks, paired with the deck themes:
   paper / paper-dark: a plain terminal (one-line banner, shell prompt), warm palette -> <name>.html / <name>-dark.html
   dark / light:       the CLI-assistant TUI (header card, status line, prompt band, footer), Primer palette
-                      -> <name>-copilot.html / <name>-copilot-light.html
+                      -> <name>-terminal.html / <name>-terminal-light.html
 Writes OUTDIR/<name><suffix>.html (and .svg). PNG is produced by shot.js (see render.sh).
 Colors are GitHub Primer color tokens (MIT), see the README credits.
 """
@@ -30,7 +30,7 @@ THEMES = {
         warn="#d29922", err="#f85149", code="#b1bac4",
         diff_add="#3fb950", diff_add_bg="#12261e", diff_del="#f85149", diff_del_bg="#2d1215",
         chrome="#161b22", chrome_fg="#9198a1", chrome_border="#30363d",
-        _look="tui", _light=False, annot="#3fb950", suffix="-copilot",
+        _look="tui", _light=False, annot="#3fb950", suffix="-terminal",
     ),
     "light": dict(
         bg="#ffffff", fg="#1f2328",
@@ -43,7 +43,7 @@ THEMES = {
         warn="#9a6700", err="#d1242f", code="#59636e",
         diff_add="#1a7f37", diff_add_bg="#dafbe1", diff_del="#d1242f", diff_del_bg="#ffebe9",
         chrome="#f6f8fa", chrome_fg="#59636e", chrome_border="#d1d9e0",
-        _look="tui", _light=True, annot="#3fb950", suffix="-copilot-light",
+        _look="tui", _light=True, annot="#3fb950", suffix="-terminal-light",
     ),
     "paper": dict(
         bg="#fffdf8", fg="#1f1c18",

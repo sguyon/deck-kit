@@ -14,16 +14,16 @@ transition: fade 0.12s
 
 # Live slides agents can edit
 
-This deck explains the kit it is built with. The app screens show Acme Deploy, a made-up product.
+This deck explains the kit it is built with. The app on screen is Pronto, a made-up food-delivery app.
 
-![](mockups/out/overview.png)
+![](mockups/out/orders.png)
 
-[//]: # "Template note (not shown in the deck): This slide uses the `lead hero` classes: kicker (the _header), big title, subtitle, and a mockup on a panel that bleeds off the bottom. Every mockup in this deck shows Acme Deploy, a made-up product used as the example: its web dashboard (this one, from mockups/specs/overview.md) and its acme CLI."
+[//]: # "Template note (not shown in the deck): This slide uses the `lead hero` classes: kicker (the _header), big title, subtitle, and a mockup on a panel that bleeds off the bottom. Every mockup in this deck shows Pronto, a made-up food-delivery app: its web pages (specs/orders.md, specs/home.md) and a coding agent working in its repo (specs/start.md, specs/review.md)."
 
 <!-- Speaker notes: This is how I build product decks with an agent: plain text in, reviewed slides out.
 
 - Everything here was written by an agent from short prompts.
-- The app on screen is made up: Acme Deploy. -->
+- The app on screen is made up: Pronto, a food-delivery app. -->
 
 ---
 
@@ -57,11 +57,11 @@ This deck explains the kit it is built with. The app screens show Acme Deploy, a
 
 ## Screens are text files, not screenshots
 
-`mockups/specs/deploy.md` → `mockups/render.sh` → this PNG, frames and labels included.
+`mockups/specs/home.md` → `mockups/render.sh` → this PNG, frames and labels included.
 
-![](mockups/out/deploy-annotated.png)
+![](mockups/out/home-annotated.png)
 
-[//]: # "Template note (not shown in the deck): The `mockup` class puts one image on a gradient panel. The numbered frames come from the `annotate:` block in the spec. Change a line, re-run render.sh, and the image updates. This one is Acme Deploy's dry-run page; the spec starts with `kind: web`."
+[//]: # "Template note (not shown in the deck): The `mockup` class puts one image on a gradient panel. The numbered frames come from the `annotate:` block in the spec. Change a line, re-run render.sh, and the image updates. This one is Pronto's home screen with the proposed reorder button."
 
 <!-- Speaker notes: The product screens are text files, not screenshots.
 
@@ -74,9 +74,9 @@ This deck explains the kit it is built with. The app screens show Acme Deploy, a
 
 ## Zoom into the detail
 
-<div class="zoom" data-zoom="78% 64%" style="position:absolute;left:72px;top:170px;width:1136px;height:490px;overflow:hidden;border-radius:12px;background:var(--panel, var(--card))"><img src="mockups/out/deploy.png" style="position:absolute;width:2400px;max-width:none;height:auto;left:-1264px;top:-430px"></div>
+<div class="zoom" data-zoom="67% 30%" style="position:absolute;left:72px;top:170px;width:1136px;height:490px;overflow:hidden;border-radius:12px;background:var(--panel, var(--card))"><img src="mockups/out/home.png" style="position:absolute;width:1832px;max-width:none;height:auto;left:-700px;top:-150px"></div>
 
-[//]: # "Template note (not shown in the deck): A close-up of the previous slide's mockup. The <div class='zoom' data-zoom='78% 64%'> wrapper makes the live preview zoom from the previous slide's panel into this point (see README, Transitions)."
+[//]: # "Template note (not shown in the deck): A close-up of the previous slide's mockup. The <div class='zoom' data-zoom='67% 30%'> wrapper makes the live preview zoom from the previous slide's panel into this point (see README, Transitions)."
 
 <!-- Speaker notes: Zooming in keeps the audience oriented.
 
@@ -129,11 +129,11 @@ This deck explains the kit it is built with. The app screens show Acme Deploy, a
 
 ## Terminal screens too, same format
 
-`mockups/specs/review.md`, without `kind: web` → the `acme` CLI, same annotations.
+`mockups/specs/review.md`, without `kind: web` → a coding agent in the Pronto repo, same annotations.
 
 ![](mockups/out/review-annotated.png)
 
-[//]: # "Template note (not shown in the deck): Same made-up product, its CLI side. Specs without `kind: web` go to tools/render.py and come out as terminal screens: paper style is a plain shell, copilot style is a CLI-assistant screen."
+[//]: # "Template note (not shown in the deck): Same made-up product, seen from its repo. Specs without `kind: web` go to tools/render.py and come out as terminal screens: paper style is a plain shell, terminal style is a CLI-assistant screen."
 
 <!-- Speaker notes: Same idea for terminal screens.
 

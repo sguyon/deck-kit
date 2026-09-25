@@ -7,7 +7,7 @@
  * - Counter bottom-left ("3 slides updated") jumps to the next updated slide on click.
  * - Presenting mode: open with ?present (markers hidden, nothing rendered),
  *   or press Shift+M to toggle markers on/off (remembered across reloads).
- * - Themes: T cycles paper / copilot (?theme=paper|copilot); D toggles dark / light
+ * - Themes: T cycles paper / terminal (?theme=paper|terminal); D toggles dark / light
  *   (?mode=dark|light; the old ?theme=light still works). Both persist (localStorage)
  *   and work with ?present too.
  */
@@ -22,14 +22,14 @@
   var presentParam = params.has('present') || (inFrame && !isOverview) || /view=presenter/.test(location.search)
 
   // --- Theme (T) and dark/light mode (D); runs in every mode, including ?present ---
-  // Themes are Marp themes from theme.css / theme-copilot.css. Every <section> carries data-theme;
+  // Themes are Marp themes from theme.css / theme-terminal.css. Every <section> carries data-theme;
   // switching rewrites it, and the CSS scoped to that value takes over. Each theme has a natural mode
-  // (paper = light, copilot = dark); the mode is remembered per theme.
-  var THEMES = [{ id: 'deck-kit', name: 'paper', mode: 'light' }, { id: 'deck-kit-copilot', name: 'copilot', mode: 'dark' }]
+  // (paper = light, terminal = dark); the mode is remembered per theme.
+  var THEMES = [{ id: 'deck-kit', name: 'paper', mode: 'light' }, { id: 'deck-kit-terminal', name: 'terminal', mode: 'dark' }]
   var STYLE_KEY = 'marpLiveStyle:v1', MODE_KEY = 'marpLiveMode:v1:'
   function store(k, v) { try { localStorage.setItem(k, v) } catch (e) {} }
   function stored(k) { try { return localStorage.getItem(k) } catch (e) { return null } }
-  function byName(n) { return THEMES.filter(function (t) { return t.name === n || t.id === n })[0] }
+  function byName(n) { if (n === 'copilot' || n === 'deck-kit-copilot') n = 'terminal'; return THEMES.filter(function (t) { return t.name === n || t.id === n })[0] }  // old name still accepted
   function applyTheme(theme, mode) {
     var dark = mode === 'dark'
     Array.prototype.forEach.call(document.querySelectorAll('section[data-theme]'), function (sec) {
@@ -42,16 +42,16 @@
     store(STYLE_KEY, theme.name); store(MODE_KEY + theme.name, mode)
     window.__liveTheme = { theme: theme, mode: mode }
   }
-  // Mockups follow the theme: mockups/out/<name>.png is paper, <name>-copilot.png the copilot look, and
-  // -dark / -copilot-light the other mode (only rendered with `render.sh --all`). Missing file -> step back
+  // Mockups follow the theme: mockups/out/<name>.png is paper, <name>-terminal.png the terminal look, and
+  // -dark / -terminal-light the other mode (only rendered with `render.sh --all`). Missing file -> step back
   // to the theme's default image, then to the one written in deck.md.
   function swapMockups(theme, mode) {
     Array.prototype.forEach.call(document.querySelectorAll('img[src*="mockups/out/"]'), function (img) {
       var orig = img.getAttribute('data-src-orig') || img.getAttribute('src')
       img.setAttribute('data-src-orig', orig)
-      var base = orig.replace(/(-copilot-light|-copilot|-dark)?\.png$/, '')
-      var first = theme.name === 'copilot' ? '-copilot' : ''
-      var tries = [base + first + (mode === theme.mode ? '' : (theme.name === 'copilot' ? '-light' : '-dark')) + '.png', base + first + '.png', orig]
+      var base = orig.replace(/(-terminal-light|-terminal|-dark)?\.png$/, '')
+      var first = theme.name === 'terminal' ? '-terminal' : ''
+      var tries = [base + first + (mode === theme.mode ? '' : (theme.name === 'terminal' ? '-light' : '-dark')) + '.png', base + first + '.png', orig]
       var i = 0
       img.onerror = function () { if (++i < tries.length) img.src = tries[i]; else img.onerror = null }
       if (img.getAttribute('src') !== tries[0]) img.src = tries[0]
@@ -392,7 +392,7 @@
   var keys = [
     ['→  Space  PageDown', 'next slide'], ['←  PageUp', 'previous slide'], ['Home  End', 'first / last slide'],
     ['O  or  Esc', 'slide overview'], ['F', 'fullscreen'], ['P', 'presenter view: notes + timer'],
-    ['T', 'switch theme: paper / copilot'], ['D', 'dark / light mode'], ['Shift + M', 'hide or show the "updated" badges'], ['C', 'comment mode: click an element, type, Enter'],
+    ['T', 'switch theme: paper / terminal'], ['D', 'dark / light mode'], ['Shift + M', 'hide or show the "updated" badges'], ['C', 'comment mode: click an element, type, Enter'],
     ['?', 'this help']]
   var ov = null
   function show() {
@@ -400,7 +400,7 @@
     ov = document.createElement('div')
     ov.style.cssText = 'position:fixed;inset:0;z-index:100000;background:#010409cc;display:flex;align-items:center;justify-content:center'
     var rows = keys.map(function (k) { return '<tr><td style="padding:6px 18px 6px 0;text-align:right;white-space:nowrap"><span style="font:600 14px ui-monospace,Menlo,monospace;color:#8cf2a6;background:#0d1117;border:1px solid #3d444d;border-radius:6px;padding:2px 8px">' + k[0] + '</span></td><td style="padding:6px 0;color:#f0f6fc">' + k[1] + '</td></tr>' }).join('')
-    ov.innerHTML = '<div style="background:#151b23;border:1px solid #3d444d;border-radius:14px;padding:22px 28px;font:15px -apple-system,sans-serif;box-shadow:0 20px 60px #000"><div style="font:600 13px ui-monospace,Menlo,monospace;letter-spacing:.06em;color:#9198a1;margin-bottom:10px">KEYBOARD SHORTCUTS</div><table style="border-collapse:collapse">' + rows + '</table><div style="margin-top:12px;color:#9198a1;font-size:13px">URL: <code>?present</code> hides all helpers · <code>?theme=copilot</code> · <code>?mode=dark</code></div></div>'
+    ov.innerHTML = '<div style="background:#151b23;border:1px solid #3d444d;border-radius:14px;padding:22px 28px;font:15px -apple-system,sans-serif;box-shadow:0 20px 60px #000"><div style="font:600 13px ui-monospace,Menlo,monospace;letter-spacing:.06em;color:#9198a1;margin-bottom:10px">KEYBOARD SHORTCUTS</div><table style="border-collapse:collapse">' + rows + '</table><div style="margin-top:12px;color:#9198a1;font-size:13px">URL: <code>?present</code> hides all helpers · <code>?theme=terminal</code> · <code>?mode=dark</code></div></div>'
     ov.addEventListener('click', function () { ov.remove(); ov = null })
     document.body.appendChild(ov)
   }

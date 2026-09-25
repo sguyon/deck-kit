@@ -3,7 +3,7 @@
 
   web.py SPEC.md OUTDIR [--theme paper|paper-dark|dark|light] [--annotated]
 
-Same themes, output names and annotate: block as render.py (paper -> <name>.html, dark -> <name>-copilot.html, ...);
+Same themes, output names and annotate: block as render.py (paper -> <name>.html, dark -> <name>-terminal.html, ...);
 PNGs come from shot.js via render.sh. Blocks, in page order:
   title: Page title | subtitle            button: Label  (button*: primary; buttons sit in the page header)
   stats: Label | value | note ¦ ...       table: Col ¦ Col ¦ ...   row: cell ¦ cell ¦ ...  ({ok}Done = status pill)
@@ -36,13 +36,13 @@ THEMES = {
                        ok="#7fc79a", ok_bg="#1f3326", warn="#e3b341", warn_bg="#3a2f14", err="#f47067", err_bg="#3d201c",
                        info="#f08a5d", info_bg="#4a2d1f", chrome="#2a2621", chrome_fg="#a79f93", tab_bg="#1a1815", url_bg="#23201c",
                        toast_bg="#f4efe6", toast_fg="#1f1c18", annot="#f08a5d"),
-    "dark": dict(light=False, suffix="-copilot", heading=SANS,
+    "dark": dict(light=False, suffix="-terminal", heading=SANS,
                  canvas="#0d1117", surface="#151b23", side="#010409", border="#3d444d", fg="#f0f6fc", muted="#9198a1",
                  accent="#238636", accent_soft="#1f6feb33", primary_fg="#ffffff",
                  ok="#3fb950", ok_bg="#2ea04326", warn="#d29922", warn_bg="#bb800926", err="#f85149", err_bg="#f8514926",
                  info="#4493f8", info_bg="#388bfd26", chrome="#161b22", chrome_fg="#9198a1", tab_bg="#0d1117", url_bg="#010409",
                  toast_bg="#f0f6fc", toast_fg="#0d1117", annot="#3fb950"),
-    "light": dict(light=True, suffix="-copilot-light", heading=SANS,
+    "light": dict(light=True, suffix="-terminal-light", heading=SANS,
                   canvas="#ffffff", surface="#f6f8fa", side="#f6f8fa", border="#d1d9e0", fg="#1f2328", muted="#59636e",
                   accent="#1f883d", accent_soft="#ddf4ff", primary_fg="#ffffff",
                   ok="#1a7f37", ok_bg="#dafbe1", warn="#9a6700", warn_bg="#fff8c5", err="#d1242f", err_bg="#ffebe9",

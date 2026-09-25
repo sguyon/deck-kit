@@ -1,26 +1,26 @@
 ---
-# Annotated mockup: the acme CLI (same made-up app as the web mockups) proposing an edit.
+# Annotated mockup: a coding agent in the Pronto web repo proposing an edit.
 # Renders review.png, review-annotated.png and review-zoom.png.
 cols: 104
-app: acme
-version: 2.3.0
-tagline: The Acme Deploy CLI
-cwd: ~/src/acme-app
-branch: fix-totals
+app: agent
+version: 1.4.0
+tagline: Coding agent
+cwd: ~/src/pronto-web
+branch: one-tap-reorder
 mode: plan
 prompt: looks good, apply it{muted} (typed, not sent)
 ---
-user: why is the cart total wrong for discounts? >> 14:05
-thought: The discount is applied after tax, so tax is charged on the full price.
+user: why does reorder pick the wrong restaurant sometimes? >> 14:05
+thought: It takes the most recent order, not the most frequent one.
 blank:
-diff: src/cart/total.ts
-diff-: const total = (subtotal + tax) - discount;
-diff+: const total = subtotal - discount + taxOn(subtotal - discount);
+diff: src/orders/usual.ts
+diff-: const usual = orders[0];
+diff+: const usual = mostFrequent(orders, { last: 10 });
 blank:
-tool: $ | Shell | acme deploy --dry-run 2 files, 1 service >> 41s
+tool: $ | Shell | npm test -- usual 9 passed >> 4s
 annotate:
   frame: thought | Explains before editing | One sentence on the cause
   frame: diff#1 .. diff+#1 | Shows the exact change | A two-line diff, not a summary
-  frame: tool | Dry run first | Nothing ships until you confirm
+  frame: tool | Tests first | Nothing ships until they pass
   crop: thought, diff+
   cols: 104

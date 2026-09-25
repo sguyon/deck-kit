@@ -2,7 +2,7 @@
 # Fast slide screenshots from the already-rendered deck.live.html (no re-render).
 #   ./shot.sh 1 5 6        -> shots/slide-1.png, shots/slide-5.png, shots/slide-6.png
 #   OUT=/tmp ./shot.sh 2   -> /tmp/slide-2.png
-#   THEME=copilot MODE=light ./shot.sh 3 -> copilot theme, light mode (THEME: paper|copilot, MODE: dark|light)
+#   THEME=terminal MODE=light ./shot.sh 3 -> terminal theme, light mode (THEME: paper|terminal, MODE: dark|light)
 # Needs Playwright (npm install puts it in node_modules) and a Chromium
 # (`npx playwright install chromium-headless-shell` once). PW_MODULE / PW_EXEC override both.
 set -euo pipefail

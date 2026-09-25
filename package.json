@@ -6,8 +6,8 @@
     "watch": "./watch.sh",
     "stop": "./watch.sh stop",
     "mockups": "mockups/render.sh",
-    "build": "marp deck.md --html --theme-set ./theme.css ./theme-copilot.css -o deck.html",
-    "pdf": "marp deck.md --html --allow-local-files --pdf --theme-set ./theme.css ./theme-copilot.css -o deck.pdf"
+    "build": "marp deck.md --html --theme-set ./theme.css ./theme-terminal.css -o deck.html",
+    "pdf": "marp deck.md --html --allow-local-files --pdf --theme-set ./theme.css ./theme-terminal.css -o deck.pdf"
   },
   "dependencies": {
     "@marp-team/marp-cli": "4.5.1",

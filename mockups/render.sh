@@ -3,8 +3,8 @@
 # browser-window app screens (tools/web.py).  Usage:
 #   mockups/render.sh [--all] [--svg] [spec.md ...]    (no spec = all specs/*.md)
 # Each spec renders in two looks, one per deck theme: out/<name>.png (paper: plain terminal)
-# and out/<name>-copilot.png (CLI-assistant TUI). --all adds the other mode of each:
-# <name>-dark.png and <name>-copilot-light.png.
+# and out/<name>-terminal.png (CLI-assistant TUI). --all adds the other mode of each:
+# <name>-dark.png and <name>-terminal-light.png.
 set -euo pipefail
 DIR="$(cd "$(dirname "$0")" && pwd)"
 THEMES=(paper dark); SVG=""; SPECS=()

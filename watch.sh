@@ -24,7 +24,7 @@ case "${1:-start}" in
     [[ -x "$MARP" ]] || { echo "Installing local marp-cli..."; npm i --no-audit --no-fund >/dev/null; }
     # --no-config: ignore any marp config file; --engine injects live-badges.js;
     # --theme-set loads both themes; --html allows the raw-HTML layouts (metrics, opps tags).
-    nohup "$MARP" --no-config --engine ./live-engine.js --theme-set ./theme.css ./theme-copilot.css --html \
+    nohup "$MARP" --no-config --engine ./live-engine.js --theme-set ./theme.css ./theme-terminal.css --html \
       --watch deck.md -o deck.live.html \
       > "$DIR/watch.log" 2>&1 < /dev/null &
     echo $! > "$PIDFILE"

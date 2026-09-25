@@ -1,4 +1,4 @@
-/* @theme deck-kit-copilot */
+/* @theme deck-kit-terminal */
 /* The terminal look: dark by default, Primer colors, mono labels. All rules live in theme.css;
    the paper rules there are scoped to data-theme="deck-kit", so they don't apply to this theme. */
 @import 'deck-kit';
