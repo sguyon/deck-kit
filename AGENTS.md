@@ -15,6 +15,7 @@
 - Check visual changes with `./shot.sh <slide numbers>` and look at the PNGs in `shots/` before calling a change done.
 - README images live in `docs/screenshots/`; regenerate them with `shot.sh` (`OUT=docs/screenshots`, plus `THEME`/`MODE` for the variants; see the file names) when the slides they show change.
 - Comments from the live deck land in `comments.md` (see README, "Comment mode"). Process them one batch at a time: apply, check with `shot.sh`, move the entry to `comments-done.md` as `[x]`, empty `comments.md`.
+- Keep the slides, the speaker notes and the talk track in sync. When you change what a slide says, update its `<!-- Speaker notes: ... -->` in the same edit, and if the deck has a talk-track file (for example `talk-track.md`, one section per slide, in slide order), update that section too. When the user edits the notes or the talk track, check whether the slide still matches and fix it. Then run `./speaker-notes.sh`. Never leave one of the three describing a version of the slide that no longer exists.
 
 ## Gotchas
 

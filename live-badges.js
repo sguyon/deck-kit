@@ -289,6 +289,71 @@
 })()
 
 
+// Fullscreen button, top right: same as the F key, easier to find; hidden with ?present, in presenter view and in iframes
+;(function () {
+  if (/view=presenter/.test(location.search) || /[?&]present/.test(location.search) || window.self !== window.top) return
+  var b = document.createElement('button')
+  b.type = 'button'
+  b.title = 'Fullscreen (F)'
+  b.setAttribute('aria-label', 'Fullscreen')
+  b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'
+  b.style.cssText = 'position:fixed;right:14px;top:14px;z-index:99990;width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;color:#f0f6fc;background:#0d1117cc;border:1px solid #3d444d;border-radius:50%;cursor:pointer;opacity:1;transition:opacity 1.2s ease'
+  function place() { if (document.body && !b.parentNode) document.body.appendChild(b) }
+  document.addEventListener('DOMContentLoaded', place); place()
+  setTimeout(function () { b.style.opacity = '0.3' }, 2500)
+  b.addEventListener('mouseenter', function () { b.style.opacity = '1' })
+  b.addEventListener('mouseleave', function () { b.style.opacity = '0.3' })
+  b.addEventListener('click', function () {
+    var d = document.documentElement
+    if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document)
+    else (d.requestFullscreen || d.webkitRequestFullscreen).call(d)
+  })
+  function sync() { b.style.display = (document.fullscreenElement || document.webkitFullscreenElement) ? 'none' : 'flex' }
+  document.addEventListener('fullscreenchange', sync); document.addEventListener('webkitfullscreenchange', sync)
+})()
+
+// Transitions: morph what repeats between slides (used with `transition:` in the front matter; Marp uses the View Transitions API).
+// 0) The first h1/h2 of each slide is the title: it holds still or cross-fades in place.
+// 1) Same image / table row / list item on consecutive slides -> same view-transition-name -> it moves instead of fading.
+// 2) Zoom: a slide with <div class="zoom" data-zoom="X% Y%"> zooms from the previous slide's mockup panel into that point,
+//    clipped to the panel (no spill), because the whole panel is one transition group with overflow hidden.
+;(function () {
+  function h(s) { var x = 0; for (var i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) | 0; return 'm' + (x >>> 0).toString(36) }
+  function key(el) {
+    if (el.tagName === 'IMG') return 'img:' + el.getAttribute('src')
+    var t = el.textContent.replace(/\s+/g, ' ').trim()
+    return t.length > 2 ? el.tagName + ':' + t : null
+  }
+  var sections = [].slice.call(document.querySelectorAll('svg[data-marpit-svg] > foreignObject > section'))
+  var skip = new Set(), css = ''
+  sections.forEach(function (sec) { var t = sec.querySelector('h1, h2'); if (t) t.style.viewTransitionName = 'dk-title' })
+  sections.forEach(function (sec, i) {
+    var z = sec.querySelector('.zoom'); if (!z || i === 0) return
+    var prev = sections[i - 1].querySelector('p > img, .zoom'); if (!prev) return
+    var n = 'dkzoom' + i, o = z.getAttribute('data-zoom') || '50% 50%'
+    z.style.viewTransitionName = n; prev.style.viewTransitionName = n
+    skip.add(prev); z.querySelectorAll('img').forEach(function (im) { skip.add(im) })
+    css += '::view-transition-group(' + n + '){overflow:hidden;border-radius:12px;animation-duration:.45s}' +
+      '::view-transition-old(' + n + '){animation:dkzOut .45s cubic-bezier(.4,0,.2,1) both;transform-origin:' + o + '}' +
+      '::view-transition-new(' + n + '){animation:dkzIn .45s cubic-bezier(.4,0,.2,1) both;transform-origin:' + o + '}'
+  })
+  if (css) {
+    var st = document.createElement('style')
+    st.textContent = css + '@keyframes dkzOut{to{transform:scale(1.9);opacity:0}}@keyframes dkzIn{from{transform:scale(.53);opacity:0}}'
+    document.head.appendChild(st)
+  }
+  sections.forEach(function (sec) {
+    var used = {}
+    sec.querySelectorAll('img, tr, li').forEach(function (el) {
+      if (skip.has(el) || el.closest('header, footer')) return
+      var k = key(el); if (!k) return
+      var n = h(k); if (used[n]) return
+      used[n] = 1
+      el.style.viewTransitionName = n
+    })
+  })
+})()
+
 // Keyboard shortcuts help: press ? (or click the corner hint)
 ;(function () {
   if (/view=presenter/.test(location.search)) return

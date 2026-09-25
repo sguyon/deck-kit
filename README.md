@@ -1,6 +1,13 @@
 # deck-kit
 
-A Markdown-to-slides workflow on [Marp](https://marp.app). You write `deck.md`; a background watcher re-renders it on save. On top of Marp's output it adds:
+A Markdown-to-slides workflow on [Marp](https://marp.app). You write `deck.md`; a background watcher re-renders it on save.
+
+<table><tr>
+<td width="50%"><img src="docs/screenshots/title.png" alt="Title slide of the example deck"><br><sub>A slide in the live preview</sub></td>
+<td width="50%"><img src="docs/screenshots/overview.png" alt="Slide overview: every slide of the deck in one HTML page"><br><sub>The whole deck is one HTML page: press <b>O</b> for the overview</sub></td>
+</tr></table>
+
+On top of Marp's output it adds:
 
 - **Change badges**: slides that changed since you last looked get an "Updated" pill.
 - **Two themes with a switcher**: *paper* (default: warm, serif headlines) and *copilot* (dark terminal look), each with a dark and a light mode, plus a clean `?present` mode.
@@ -8,7 +15,6 @@ A Markdown-to-slides workflow on [Marp](https://marp.app). You write `deck.md`; 
 - **Fast screenshots** of rendered slides, for quick visual checks.
 - **A mockup generator**: turns a small text spec into a PNG of a CLI screen or a web app in a browser window, with optional numbered annotation frames. Each spec renders in both themes' styles, and the preview shows the one that matches.
 
-![Title slide of the example deck](docs/screenshots/slide-1.png)
 
 ## How it works
 
@@ -99,7 +105,18 @@ Keys in `deck.live.html`:
 | Shift+M | hide / show the "Updated" badges |
 | ? | all shortcuts |
 
-Open `deck.live.html?present` to hide every helper when presenting.
+The round button in the top-right corner goes fullscreen, like **F**. Open `deck.live.html?present` to hide every helper when presenting.
+
+## Transitions
+
+The example deck uses `transition: fade 0.12s` in its front matter, a quick cross-fade between slides (Marp's [bespoke transitions](https://github.com/marp-team/marp-cli/blob/main/docs/bespoke-transitions/README.md), View Transitions API: Chrome/Edge 111+, Safari 18.2+, Firefox 144+; other browsers switch instantly, reduced-motion users get a plain fade).
+
+On top of that, in the live preview:
+- The kicker, the title and the footer hold still, so only the content changes.
+- Anything that repeats on the next slide (the same image, table row or list item) moves into its new place instead of fading. A table shown again with extra rows keeps its rows still and fades in the new ones.
+- Zoom: wrap a close-up in `<div class="zoom" data-zoom="78% 64%">` (where to zoom, in % across and down) and the previous slide's mockup zooms into it, clipped to the panel.
+
+Remove the `transition:` line to turn it all off.
 
 ## Comment mode
 
@@ -132,8 +149,8 @@ Two Marp themes share every layout:
 
 | | light | dark |
 |---|---|---|
-| **paper** | ![paper, light](docs/screenshots/slide-3-paper-light.png) | ![paper, dark](docs/screenshots/slide-3-paper-dark.png) |
-| **copilot** | ![copilot, light](docs/screenshots/slide-3-copilot-light.png) | ![copilot, dark](docs/screenshots/slide-3-copilot-dark.png) |
+| **paper** | ![paper, light](docs/screenshots/cards-paper-light.png) | ![paper, dark](docs/screenshots/cards-paper-dark.png) |
+| **copilot** | ![copilot, light](docs/screenshots/cards-copilot-light.png) | ![copilot, dark](docs/screenshots/cards-copilot-dark.png) |
 
 - **Pick one for the deck** with `theme: deck-kit` or `theme: deck-kit-copilot` in the front matter of `deck.md`. The static exports (`npm run build` / `pdf`) use it.
 - **Switch live** in `deck.live.html` with **T** (theme) and **D** (mode). Each theme remembers its own mode.
@@ -141,7 +158,7 @@ Two Marp themes share every layout:
 
 Layout classes, set per slide with `<!-- _class: ... -->`: `lead`, `lead hero`, `lead split`, `agenda`, `cards` (`cols-2..5`, `hero-first`, `lists`, `foot`), `mockup`, `quote`, `dense`, `backup`, `backup-table`, `journey`, `metrics`, `opps`, `note`.
 
-![Layouts slide: every layout is one class](docs/screenshots/slide-4.png)
+![Layouts slide: every layout is one class](docs/screenshots/layouts.png)
 
 Fonts use system stacks. To use your own font, put the files in `assets/fonts/`, add an `@font-face` rule at the top of `theme.css`, and put the family name first in `--fontStack-sansSerif` (or `--fontStack-heading` for headlines only).
 
@@ -165,7 +182,7 @@ The example deck's mockups all show one made-up product, Acme Deploy: its web da
 
 On a slide, with the `mockup` class:
 
-![Mockup slide](docs/screenshots/slide-5.png)
+![Mockup slide](docs/screenshots/mockup.png)
 
 ## Credits
 

@@ -5,6 +5,7 @@ paginate: true
 size: 16:9
 header: ''
 footer: 'deck-kit · example deck'
+transition: fade 0.12s
 ---
 
 <!-- _class: lead hero -->
@@ -40,6 +41,29 @@ This deck explains the kit it is built with. The app screens show Acme Deploy, a
 
 ---
 
+<!-- _class: mockup -->
+<!-- _header: 'Mockups' -->
+
+## Screens are text files, not screenshots
+
+`mockups/specs/deploy.md` → `mockups/render.sh` → this PNG, frames and labels included.
+
+![](mockups/out/deploy-annotated.png)
+
+<!-- Speaker notes: The `mockup` class puts one image on a gradient panel. The numbered frames come from the `annotate:` block in the spec. Change a line, re-run render.sh, and the image updates. This one is Acme Deploy's dry-run page; the spec starts with `kind: web`. -->
+
+---
+
+<!-- _header: 'Mockups' -->
+
+## Zoom into the detail
+
+<div class="zoom" data-zoom="78% 64%" style="position:absolute;left:72px;top:170px;width:1136px;height:490px;overflow:hidden;border-radius:12px;background:var(--panel, var(--card))"><img src="mockups/out/deploy.png" style="position:absolute;width:2400px;max-width:none;height:auto;left:-1264px;top:-430px"></div>
+
+<!-- Speaker notes: A close-up of the previous slide's mockup. The <div class="zoom" data-zoom="78% 64%"> wrapper makes the live preview zoom from the previous slide's panel into this point (see README, Transitions). -->
+
+---
+
 <!-- _class: cards cols-3 hero-first -->
 <!-- _header: 'On top of Marp' -->
 
@@ -69,19 +93,6 @@ This deck explains the kit it is built with. The app screens show Acme Deploy, a
 > **Set it per slide:** `<!-- _class: cards cols-3 -->` above the slide content.
 
 <!-- Speaker notes: Plain Markdown tables pick up the theme: muted mono header, bold first column, row rules only. The README lists every class, including quote, journey, metrics and opps. -->
-
----
-
-<!-- _class: mockup -->
-<!-- _header: 'Mockups' -->
-
-## Screens are text files, not screenshots
-
-`mockups/specs/deploy.md` → `mockups/render.sh` → this PNG, frames and labels included.
-
-![](mockups/out/deploy-annotated.png)
-
-<!-- Speaker notes: The `mockup` class puts one image on a gradient panel. The numbered frames come from the `annotate:` block in the spec. Change a line, re-run render.sh, and the image updates. This one is Acme Deploy's dry-run page; the spec starts with `kind: web`. -->
 
 ---
 

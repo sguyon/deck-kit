@@ -38,6 +38,9 @@ section header::after { content: ""; display: inline-block; width: 0.55em; heigh
 section header:empty::after { content: none; }
 /* footer: small muted mono, bottom-left */
 section footer { left: 72px; bottom: 20px; font-family: var(--fontStack-label); font-size: 18px; line-height: 20px; color: var(--fgColor-muted); }
+/* transitions: the kicker and the footer keep the same identity on every slide, so they hold still while the slide fades */
+section header { view-transition-name: dk-header; }
+section footer { view-transition-name: dk-footer; }
 section.lead footer { display: none; }
 /* headline: large, bold, left-aligned, no rule */
 section h1, section h2, section h3 { font-family: var(--fontStack-heading); color: var(--fgColor-default); font-weight: 700; letter-spacing: normal; border: 0; padding: 0; margin: 0 0 24px; }
