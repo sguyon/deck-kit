@@ -2,10 +2,11 @@
 
 A Markdown-to-slides workflow on [Marp](https://marp.app). You write `deck.md`; a background watcher re-renders it on save.
 
-<table><tr>
-<td width="50%"><img src="docs/screenshots/title.png" alt="Title slide of the example deck"><br><sub>A slide in the live preview</sub></td>
-<td width="50%"><img src="docs/screenshots/overview.png" alt="Slide overview: every slide of the deck in one HTML page"><br><sub>The whole deck is one HTML page: press <b>O</b> for the overview</sub></td>
-</tr></table>
+![Title slide of the example deck](docs/screenshots/title.png)
+<sub>A slide in the live preview</sub>
+
+![Slide overview: every slide of the deck in one HTML page](docs/screenshots/overview.png)
+<sub>The whole deck is one HTML page: press <b>O</b> for the overview</sub>
 
 On top of Marp's output it adds:
 
