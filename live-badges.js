@@ -278,7 +278,9 @@
       open.remove()
     }
     var box = document.createElement('div'); box.className = 'cm-box'; box.__el = el
-    box.style.left = Math.min(r.left, innerWidth - 360) + 'px'; box.style.top = Math.min(r.bottom + 6, innerHeight - 130) + 'px'
+    var big = r.left < 0 || r.right > innerWidth || r.bottom > innerHeight // element larger than the view (e.g. the .zoom close-up image): anchor at the click
+    var bx = big ? e.clientX - 40 : r.left, by = big ? e.clientY + 36 : r.bottom + 6
+    box.style.left = Math.max(8, Math.min(bx, innerWidth - 360)) + 'px'; box.style.top = Math.max(8, Math.min(by, innerHeight - 130)) + 'px'
     box.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;color:#9198a1"><span>Slide ' + slideNo() + ' · Enter to send · Esc to cancel</span><button class="cm-x" title="Cancel" style="all:unset;cursor:pointer;color:#9198a1;font:600 16px -apple-system,sans-serif;padding:0 4px;line-height:1">×</button></div><textarea></textarea>'
     box.querySelector('.cm-x').addEventListener('click', function (ev) { ev.stopPropagation(); box.remove() })
     document.body.appendChild(box); var ta = box.querySelector('textarea'); ta.focus()
@@ -297,7 +299,7 @@
         }
         var ctl = new AbortController(); var tm = setTimeout(function () { ctl.abort() }, 2500)
         fetch('http://127.0.0.1:8765/comment', { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload), signal: ctl.signal })
-          .then(function () { box.innerHTML = '<div style="color:#8cf2a6">✓ Saved</div>'; var pin = document.createElement('div'); pin.className = 'cm-pin'; pin.style.left = (r.left - 7) + 'px'; pin.style.top = (r.top - 7) + 'px'; document.body.appendChild(pin); setTimeout(function () { box.remove() }, 700) })
+          .then(function () { box.innerHTML = '<div style="color:#8cf2a6">✓ Saved</div>'; var pin = document.createElement('div'); pin.className = 'cm-pin'; pin.style.left = ((big ? e.clientX : r.left) - 7) + 'px'; pin.style.top = ((big ? e.clientY : r.top) - 7) + 'px'; document.body.appendChild(pin); setTimeout(function () { box.remove() }, 700) })
           .catch(function (err) { saveLocal(err && err.name === 'AbortError' ? 'timeout' : 'blocked') })
           .finally(function () { clearTimeout(tm) })
       }

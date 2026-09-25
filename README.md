@@ -1,11 +1,10 @@
 # deck-kit
 
-**Product presentations, built with your AI agent.**<br>
-Create slides, product mockups and talk track in one agent session.
+**Create slides, product mockups and talk track in one agent session.**
 
-A product presentation is three things that have to stay in sync: the argument, the slides and the product screens. They usually live in three places: a chat with your AI, a slide app and a design tool. deck-kit keeps them in one folder your coding agent can edit. It writes the slides, the product screens and the speaker notes as plain files; you review them in the browser and point at what to change. It's built on [Marp](https://marp.app), which renders the slides; deck-kit adds the text-based mockups, the live review loop and the process the agent follows, from brief to export.
+A product presentation is three things that have to stay in sync: the narrative, the slides and the product screens. They usually live in three places: a chat with your AI, a slide app and a design tool. deck-kit keeps them in one folder your coding agent can edit. It writes the slides, the product screens and the speaker notes as plain files; you review them in the browser and point at what to change. It's built on [Marp](https://marp.app), which renders the slides; deck-kit adds the text-based mockups, the live review loop and the process the agent follows, from brief to export.
 
-![Comment on a slide, the agent edits deck.md, the slide updates](docs/screenshots/loop.gif)
+![A mockup slide zooms into its detail; a comment on the mockup makes the agent update the screen, its callouts and the slide text](docs/screenshots/loop.gif)
 
 **[▶ Try the live example deck](https://sguyon.github.io/deck-kit/)**: arrows to move, **O** for the overview, **T** and **D** for themes.
 
@@ -102,6 +101,18 @@ I built deck-kit while preparing a product case presentation with Claude Code. I
 - A collaborative editor: it's one person and their agent, working in a folder.
 - A design tool: the mockups illustrate a product idea; they're not a design system.
 - For every browser: the transitions need a recent Chrome, Edge, Safari or Firefox; older ones just switch slides.
+
+
+**Next feature ideas:**
+- Render the mockups as HTML directly in the page, to skip the PNG rendering step.
+- Animate the mockups and make them interactive, possibly with [HyperFrames](https://github.com/heygen-com/hyperframes).
+- Estimate the talk time from the speaker notes, per slide and in total, against your time limit.
+- Phone mockups, next to the web-app and terminal ones.
+- Send each comment to the agent the moment you press Enter, instead of the agent watching a file.
+- Check the layout automatically on every save: text that overflows, titles that wrap, content too close to the edge.
+- Let teammates review a shared copy of the deck with the same comment mode.
+- Generate a theme from a company's colors and fonts.
+- Export to Google Slides or PowerPoint with editable text. Marp's PowerPoint export is images by default; its editable mode is still experimental.
 
 ## Reference
 
